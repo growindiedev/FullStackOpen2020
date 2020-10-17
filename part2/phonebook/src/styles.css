@@ -7,3 +7,13 @@
 	padding: 10px;
 	margin-bottom: 10px;
 }
+
+.alert {
+	color: aquamarine;
+	background: rgb(94, 214, 78);
+	font-size: 20px;
+	border-style: solid;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}

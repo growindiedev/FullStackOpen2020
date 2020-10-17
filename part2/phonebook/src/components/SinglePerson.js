@@ -5,7 +5,7 @@ import {remove, getAll} from '../services/phone'
 
 
 function SinglePerson({props}) {
-    const {persons, per, setPersons, setErrorMessage} = props;
+    const {persons, per, setPersons, setErrorMessage, setError} = props;
 
     
 
@@ -13,7 +13,9 @@ function SinglePerson({props}) {
     window.confirm(`Delete ${per.name}?`)
          && remove(per.id).then(response => {
             const newPersons = persons.filter(man => man.id !== per.id)
+            setError(false)
             setErrorMessage(
+                
                 `Deleted ${per.name}`
               )
               setTimeout(() => {
@@ -22,8 +24,10 @@ function SinglePerson({props}) {
             setPersons(newPersons)
         }).catch( error =>
             {setErrorMessage(
+                
                 `Information of ${per.name} has already been removed from the server`
               )
+              setError(true)
               setTimeout(() => {
                 setErrorMessage(null)
               }, 5000)

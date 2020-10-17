@@ -13,6 +13,8 @@ const App = () => {
   const [search, setSearch] = useState('')
   const [persons, setPersons] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
+  const [error, setError] = useState(false)
+
 
   useEffect(() => {
     console.log('effect')
@@ -49,7 +51,9 @@ const App = () => {
         create(newPerson)
         .then(response => setPersons(persons.concat(response)))
         setNewName('') 
+        setError(false)
         setErrorMessage(
+            
           `Added ${newPerson.name}`
         )
         setTimeout(() => {
@@ -64,7 +68,9 @@ const App = () => {
 
         window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`) &&
         update(result.id, updated).then(response => setPersons(persons.map(man => man.id !== result.id ? man : updated )))
+        setError(false)
         setErrorMessage(
+          
           `updated ${newName} number`
         )
         setTimeout(() => {
@@ -81,13 +87,13 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage}/>
+      <Notification message={errorMessage} error={error}/>
       <h2>Phonebook</h2>
       <Filter props={{handleSearch}}/>
      <h2>add a new</h2>
       <PersonForm props={{addPerson, handleNameChange, handleNumberChange}}/>
       <h2>Numbers</h2>
-      <Persons props={{setPersons, persons, search, setErrorMessage}}/>
+      <Persons props={{setPersons, persons, search, setErrorMessage, setError}}/>
     </div>
   )
 }
