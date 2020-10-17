@@ -1,22 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import {getAll, create, update} from './services/phone'
+
 
 const App = () => {
 
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '040-123456' },
-        { name: 'Ada Lovelace', number: '39-44-5323523' },
-        { name: 'Dan Abramov', number: '12-43-234345' },
-        { name: 'Mary Poppendieck', number: '39-23-6423122' }
-      ])
-
-  
+    
 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [search, setSearch] = useState('')
+  const [persons, setPersons] = useState([])
+
+  useEffect(() => {
+    console.log('effect')
+    getAll()
+    .then(response => {
+      console.log('promise fulfilled')
+      setPersons(response)
+    })
+
+
+  }, [])
 
   const handleNameChange = (event) => {
       setNewName(event.target.value)
@@ -33,31 +41,41 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if(persons.find(per => per.name === newName) === undefined){
+    const result = persons.find(per => per.name === newName)
+    if(result === undefined){
         const newPerson = {
             name: newName,
             number: newNumber
         }
-        setPersons([...persons, newPerson])
+        create(newPerson)
+        .then(response => setPersons(persons.concat(response)))
         setNewName('') 
-      } else {
+
+      } else if (result && newNumber) {
+        const updated = {
+          ...result,
+          number: newNumber
+        }
+
+        window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`) &&
+        update(result.id, updated).then(response => setPersons(persons.map(man => man.id !== result.id ? man : updated )))
+      }
+      
+      else {
           alert(`${newName} is already in the phonebook`)
       }
 
-      
-      
   }
 
-  
 
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter props={{handleSearch}}/>
+      <Filter props={{handleSearch}}/>
      <h2>add a new</h2>
       <PersonForm props={{addPerson, handleNameChange, handleNumberChange}}/>
       <h2>Numbers</h2>
-      <Persons props={{persons, search}}/>
+      <Persons props={{setPersons, persons, search}}/>
     </div>
   )
 }
