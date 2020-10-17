@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import {getAll, create, update} from './services/phone'
 
 
 const App = () => {
 
-    
-
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [search, setSearch] = useState('')
   const [persons, setPersons] = useState([])
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -50,6 +49,12 @@ const App = () => {
         create(newPerson)
         .then(response => setPersons(persons.concat(response)))
         setNewName('') 
+        setErrorMessage(
+          `Added ${newPerson.name}`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
 
       } else if (result && newNumber) {
         const updated = {
@@ -59,6 +64,12 @@ const App = () => {
 
         window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`) &&
         update(result.id, updated).then(response => setPersons(persons.map(man => man.id !== result.id ? man : updated )))
+        setErrorMessage(
+          `updated ${newName} number`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       }
       
       else {
@@ -70,12 +81,13 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={errorMessage}/>
       <h2>Phonebook</h2>
       <Filter props={{handleSearch}}/>
      <h2>add a new</h2>
       <PersonForm props={{addPerson, handleNameChange, handleNumberChange}}/>
       <h2>Numbers</h2>
-      <Persons props={{setPersons, persons, search}}/>
+      <Persons props={{setPersons, persons, search, setErrorMessage}}/>
     </div>
   )
 }
