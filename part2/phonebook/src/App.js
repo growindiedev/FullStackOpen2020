@@ -49,13 +49,19 @@ const App = () => {
             number: newNumber
         }
         create(newPerson)
-        .then(response => setPersons(persons.concat(response)))
-        setNewName('') 
-        setError(false)
-        setErrorMessage(
-            
-          `Added ${newPerson.name}`
-        )
+        .then(response => {
+          setPersons(persons.concat(response))
+          setError(false)
+          setErrorMessage(
+          `Added ${response.name}`)
+          //setNewName('') 
+        })
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+          setError(true)
+        })
+        
+        
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
@@ -67,12 +73,18 @@ const App = () => {
         }
 
         window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`) &&
-        update(result.id, updated).then(response => setPersons(persons.map(man => man.id !== result.id ? man : updated )))
-        setError(false)
-        setErrorMessage(
+        update(result.id, updated).then(response => {
+          setPersons(persons.map(man => man.id !== result.id ? man : updated ))
+          setError(false)
+          setErrorMessage(
           
-          `updated ${newName} number`
+          `updated ${response.name}'s number`
         )
+        }).catch(error => {
+          setError(true)
+          setErrorMessage(error.response.data.error)
+        })
+        
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
