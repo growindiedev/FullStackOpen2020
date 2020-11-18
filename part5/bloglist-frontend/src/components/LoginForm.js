@@ -3,6 +3,9 @@ import React from 'react'
 const LoginForm = ({render}) => {
     const {handleLogin, username, password, setUsername, setPassword} = render
     
+
+
+
     return (<form onSubmit={handleLogin}>
       <h2>Log in to application</h2>
       <div>

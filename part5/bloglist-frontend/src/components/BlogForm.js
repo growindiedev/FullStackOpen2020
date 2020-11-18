@@ -1,7 +1,26 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 const BlogForm = ({render}) => {
-    const {addBlog, newBlog, setNewBlog} = render
+  const {blogService, setError, setErrorMessage} = render
+
+  const [newBlog, setNewBlog] = useState({
+    title: '',
+    author: '',
+    url: ''
+  })
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    blogService.create(newBlog)
+    setError(false)
+    setErrorMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+  
+  
+    
     return(
       <form onSubmit={addBlog}>
         <h2>Create Blog</h2>

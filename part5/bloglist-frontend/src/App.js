@@ -5,26 +5,25 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import ShowBlogs from './components/ShowBlogs'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [error, setError] = useState(false)
+  
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [blogs])
+     const fetchData = async () => {
+      const fetchedBlogs = await blogService.getAll()
+      setBlogs(fetchedBlogs.sort((a, b) => a.likes - b.likes))
+    }
+     fetchData()  
+  },[blogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -67,17 +66,6 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    blogService.create(newBlog)
-    setError(false)
-    setErrorMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
-  }
-
-
   if(user === null ){
     return (
       <div>
@@ -88,10 +76,12 @@ const App = () => {
   } 
   return (
     <div>
-      <h2>blogs</h2>
+    <h2>blogs</h2>
     <Notification message={errorMessage} error={error}/>
     <p>{`${user.username} logged in`} <button onClick={handleLogout}>logout</button></p>
-    <BlogForm render = {{addBlog, newBlog, setNewBlog}}/>
+    <Togglable label1="create blog" label2="cancel">
+    <BlogForm render = {{blogService, setError, setErrorMessage}}/>
+    </Togglable>
     <ShowBlogs render = {{blogs, user, handleLogout}}/>
    </div>
   )
