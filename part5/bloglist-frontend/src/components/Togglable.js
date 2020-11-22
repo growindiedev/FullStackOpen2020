@@ -16,7 +16,7 @@ function Togglable(props) {
             <div style={hideWhenVisible}>
             <button onClick={toggleVisibility}>{props.label1}</button>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} class="togglableContent">
                 {props.children}
                 <button onClick={toggleVisibility}>{props.label2}</button>
             </div>

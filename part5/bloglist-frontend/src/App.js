@@ -80,7 +80,7 @@ const App = () => {
     <Notification message={errorMessage} error={error}/>
     <p>{`${user.username} logged in`} <button onClick={handleLogout}>logout</button></p>
     <Togglable label1="create blog" label2="cancel">
-    <BlogForm render = {{blogService, setError, setErrorMessage}}/>
+    <BlogForm render = {{setError, setErrorMessage}} createBlog={blogService.create}/>
     </Togglable>
     <ShowBlogs render = {{blogs, user, handleLogout}}/>
    </div>

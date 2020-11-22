@@ -26,12 +26,12 @@ const removeBlog = async (event) => {
 }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="Blog">
       <div>
-        {blog.title}
+        {`${blog.title} ${blog.author}`}
         <Togglable label1="view" label2="hide">
-        <div>{blog.url}</div>
-        <div>{`likes ${blog.likes}`}<button onClick={updateBlog}>likes</button></div>
+        <div className="hidden">{blog.url}</div>
+        <div>{`likes ${blog.likes}`}<button onClick={updateBlog}>Like+</button></div>
         <div>{blog.author}</div>
         <button onClick={removeBlog}>remove</button>
         </Togglable>
