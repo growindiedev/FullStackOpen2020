@@ -56,7 +56,7 @@ const BlogForm = ({render, createBlog}) => {
         onChange={(event) => setNewBlog({...newBlog, url: event.target.value})}
         />
       </div>
-      <button type="submit">create</button>
+      <button type="submit" class="submit">create</button>
       </form>
       </div>
     )

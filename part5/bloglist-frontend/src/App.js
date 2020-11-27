@@ -13,17 +13,16 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [error, setError] = useState(false)
-  
-
+  const [error, setError] = useState(false)  
 
   useEffect(() => {
      const fetchData = async () => {
       const fetchedBlogs = await blogService.getAll()
-      setBlogs(fetchedBlogs.sort((a, b) => a.likes - b.likes))
+      //setBlogs(fetchedBlogs.sort((a, b) => a.likes - b.likes))
+      setBlogs(fetchedBlogs)
     }
      fetchData()  
-  },[blogs])
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -40,8 +39,6 @@ const App = () => {
       const man = await loginService.login({
       username, password
       })
-      console.log(man)
-      console.log(blogs)
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(man)
       )
@@ -49,7 +46,6 @@ const App = () => {
       setUser(man)
       setUsername('')
       setPassword('')
-      console.log(man)
     } catch(exception) {
       console.log(exception)
       setError(true)
@@ -62,7 +58,7 @@ const App = () => {
   }
 
   const handleLogout = (event) => {
-    window.localStorage.clear()
+    window.localStorage.removeItem('loggedUser')
     setUser(null)
   }
 
