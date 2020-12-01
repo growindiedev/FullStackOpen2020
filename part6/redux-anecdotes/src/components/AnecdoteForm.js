@@ -3,11 +3,12 @@ import {createNote} from '../reducers/anecdoteReducer'
 import { useSelector, useDispatch } from 'react-redux'
 
 
+
 function AnecdoteForm() {
     const dispatch = useDispatch()
     const anecdotes = useSelector(state => state)
 
-    const addAnecdote = (event) => {
+    const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.create.value
         event.target.create.value = ''

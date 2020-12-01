@@ -1,6 +1,6 @@
 import React from 'react'
-import {createNote, vote} from '../reducers/anecdoteReducer'
-import {createNotification, removeNotification} from '../reducers/notificationReducer'
+import {vote} from '../reducers/anecdoteReducer'
+import {createNotification} from '../reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
 
 function AnecdoteList() {
@@ -9,6 +9,8 @@ function AnecdoteList() {
 
     const anecdotes = useSelector(state => state.anecdoteReducer)
     const search = useSelector(state => state.filterReducer)
+
+    
 
 
     return (
@@ -23,10 +25,8 @@ function AnecdoteList() {
             has {anecdote.votes}
             <button onClick={() => {
               dispatch(vote(anecdote))
-              dispatch(createNotification(anecdote.content))
-              dispatch(removeNotification())
-              
-            }}>vote</button>
+              dispatch(createNotification(`you voted '${anecdote.content}'`, 5))
+             }}>vote</button>
           </div>
         </div>
       )}

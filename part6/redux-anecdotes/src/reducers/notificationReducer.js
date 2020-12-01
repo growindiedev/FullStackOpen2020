@@ -1,16 +1,13 @@
 
-export const createNotification = (content) => {
-    return {
-      type: "NOTIFY",
-      payload: content
-    }
-  }
-
-export const removeNotification = () => {
+export const createNotification = (content, delay) => {
     return (dispatch) => {
+        dispatch({
+            type: "NOTIFY",
+            payload: content
+        })
         setTimeout(() => {
             dispatch({type: "REMOVE"})
-        }, 5000)
+        }, delay * 1000)
     }
 }
 
