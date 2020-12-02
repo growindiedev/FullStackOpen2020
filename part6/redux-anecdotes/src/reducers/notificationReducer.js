@@ -1,3 +1,4 @@
+let timeOutID
 
 export const createNotification = (content, delay) => {
     return (dispatch) => {
@@ -5,9 +6,13 @@ export const createNotification = (content, delay) => {
             type: "NOTIFY",
             payload: content
         })
-        setTimeout(() => {
+        clearTimeout(timeOutID)
+
+        timeOutID = setTimeout(() => {
             dispatch({type: "REMOVE"})
         }, delay * 1000)
+
+        
     }
 }
 

@@ -1,12 +1,9 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-//import {removeNotification} from '../reducers/notificationReducer'
+import { useSelector } from 'react-redux'
 
 const Notification = () => {
 
-  const dispatch = useDispatch()
   const notification = useSelector(state => state.notificationReducer)
-  //const anecdotes = useSelector(state => state.anecdoteReducer)
 
 
 

@@ -1,18 +1,19 @@
 import React from 'react'
 import {createNote} from '../reducers/anecdoteReducer'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
+//import ConnectedFilter from './Filter'
 
 
 
-function AnecdoteForm() {
-    const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state)
+function AnecdoteForm(props) {
+    //const dispatch = useDispatch()
+    //const anecdotes = useSelector(state => state)
 
     const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.create.value
         event.target.create.value = ''
-        dispatch(createNote(content))
+        props.createNote(content)
       }
     
     return (
@@ -26,4 +27,11 @@ function AnecdoteForm() {
     )
 }
 
-export default AnecdoteForm
+const mapStateToProps = (state) => {
+    return {
+        anecdotes: state.anecdotes
+    }
+}
+
+const ConnectedAnecdoteForm = connect(mapStateToProps, {createNote})(AnecdoteForm)
+export default ConnectedAnecdoteForm
