@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {Link, Switch, Route, useParams, useHistory} from 'react-router-dom'
+import {useField} from './hooks/useField'
 
 const Menu = () => {
   const padding = {
@@ -46,42 +47,56 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
   const history = useHistory()
-  //const timeID
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
+  //const formRef = useRef();
+
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      info: info.value,
       votes: 0
     })
     //clearTimeout(timeID)
-    props.setNotification(content)
+    props.setNotification(content.value)
     setTimeout(() => props.setNotification(null), 10000)
     history.push('/')
+  }
+
+  // best solution so far to reset the form
+  const reset = (e) => {
+    e.preventDefault();
+    e.target.value = ""
+    content.onChange(e)
+    author.onChange(e)
+    info.onChange(e)
+
   }
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form>
+        <div >
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' {...content} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' {...author} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' {...info} />
         </div>
-        <button>create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button onClick={reset}>reset</button>
       </form>
     </div>
   )
@@ -139,14 +154,6 @@ const App = () => {
 
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
-
-  
-
- // const notify
-
-  //const match = useRouteMatch('/anecdotes/:id')
-
-  //console.log('match', id)
 
   return (
     <div>
