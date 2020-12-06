@@ -1,0 +1,41 @@
+{
+  "notes": [
+    {
+      "content": "custom-hookit aivan mahtavia",
+      "id": 1
+    },
+    {
+      "content": "paras feature ikinä <3",
+      "id": 2
+    },
+    {
+      "content": "hello boy",
+      "id": 3
+    },
+    {
+      "content": "hello boy",
+      "id": 4
+    },
+    {
+      "content": "abhishek",
+      "id": 5
+    }
+  ],
+  "persons": [
+    {
+      "name": "mluukkai",
+      "number": "040-5483923",
+      "id": 1
+    },
+    {
+      "name": "abhishek ",
+      "number": "42514154126",
+      "id": 2
+    },
+    {
+      "name": "greatness",
+      "number": "4353535",
+      "id": 3
+    }
+  ]
+}
