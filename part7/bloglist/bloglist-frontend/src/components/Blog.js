@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Togglable from './Togglable'
 import {useDispatch} from 'react-redux'
-import {updateLike, removeblog, setBlogs} from '../reducers/blogsReducer'
+import {updateLike, removeblog} from '../reducers/blogsReducer'
 
 
 

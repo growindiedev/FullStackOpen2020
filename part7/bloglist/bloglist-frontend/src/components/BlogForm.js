@@ -58,7 +58,7 @@ const BlogForm = () => {
         onChange={(event) => dispatch(setUrl(event.target.value))}
         />
       </div>
-      <button type="submit" class="submit">create</button>
+      <button type="submit" className="submit">create</button>
       </form>
       </div>
     )

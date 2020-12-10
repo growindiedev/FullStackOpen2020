@@ -6,8 +6,6 @@ import { useSelector} from 'react-redux'
 const ShowBlogs = () => {
 
     const blogs = useSelector(state => state.blogsReducer)
-    
-    //const user = useSelector(state => state.userReducer)
     const user = useSelector(state => state.loginReducer)
     console.log('jerry', user)
     return (

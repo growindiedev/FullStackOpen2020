@@ -19,9 +19,9 @@ const App = () => {
 
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogsReducer)
-  console.log(blogs)
   const {username, password} = useSelector(state => state.loginFormReducer)
   let loggedUser = useSelector(state => state.loginReducer)
+  console.log('notify', loggedUser)
 
   useEffect(() => {
     const loggedUserJSON = JSON.parse(window.localStorage.getItem('loggedUser'))
@@ -36,27 +36,26 @@ const App = () => {
     }, [dispatch, loggedUser]
   )
 
-  
-
-
-
-  const handleLogin =  (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      dispatch(setLogin({username, password}))
+      await dispatch(setLogin({username, password}))
+      await dispatch(setError(false))
+      await dispatch(setErrorMessage('You are now logged in'))
+
     } catch(exception) {
       console.log(exception)
-      dispatch(setError(true))
-      dispatch(setErrorMessage('wrong user name or password'))
-      
+      await dispatch(setError(true))
+      await dispatch(setErrorMessage('wrong user name or password'))
     }  
     setTimeout(() => {
-      dispatch(setErrorMessage(null))
+       dispatch(setErrorMessage(null))
     }, 5000)
   }
 
   const handleLogout = (event) => {
-    //window.localStorage.removeItem('loggedUser')
+    event.preventDefault()
+    window.localStorage.removeItem('loggedUser')
     dispatch(setLogout())
    // dispatch(setUser(null))
   }
