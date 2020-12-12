@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Link, Switch, Route, useParams, useHistory, Redirect} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 
 import blogService from './services/blogs'
 
@@ -11,20 +11,19 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import ShowUsers from './components/ShowUsers'
 import Bloglist from './components/Bloglist'
+import Blog from './components/Blog'
+import Navbar from './components/Navbar'
+
 import {getBlogs} from './reducers/blogsReducer'
-import {setLogin, setLogout} from './reducers/loginReducer'
-import {setUsername, setPassword} from './reducers/loginFormReducer'
+import {setLogin} from './reducers/loginReducer'
 import {setErrorMessage} from './reducers/errorMessageReducer'
 import {setError} from './reducers/errorReducer'
-import {getUsers} from './reducers/usersReducer'
 
 
 
 const App = () => {
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blogsReducer)
-
   const {username, password} = useSelector(state => state.loginFormReducer)
 
   useEffect(() => {
@@ -33,14 +32,10 @@ const App = () => {
       blogService.setToken(loggedUserJSON.token)
       
     }
-    dispatch(getBlogs())
-    dispatch(getUsers())
+    //dispatch(getUsers())
+  // dispatch(getBlogs())
   }, [])
-
-  const users = useSelector(state => state.usersReducer)
-
  
-
   //useEffect(() => dispatch(getBlogs()), [dispatch, loggedUser])
   
 const handleLogin = async (event) => {
@@ -63,17 +58,12 @@ const handleLogin = async (event) => {
   let loggedUser = useSelector(state => state.loginReducer)
   //console.log('loggedUser', loggedUser)
 
-  const handleLogout = (event) => {
-    event.preventDefault()
-    window.localStorage.removeItem('loggedUser')
-    dispatch(setLogout())
-    dispatch(setUsername(''))
-    dispatch(setPassword(''))
-  }
+
 
   if(loggedUser === null ){
     return (
       <div>
+        <Navbar user={loggedUser} />
         <Notification/>
         <LoginForm handleLogin = {handleLogin}/>
       </div>
@@ -81,10 +71,9 @@ const handleLogin = async (event) => {
   } 
   return (
     <div>
-    <h2>blogs</h2>
-    <Redirect to="/users"/>
+    <Navbar user={loggedUser} />
     <Notification/>
-    <p>{`${loggedUser.username} logged in`} <button onClick={handleLogout}>logout</button></p>
+    <h2>Blogs App</h2>
     <Togglable label1="create blog" label2="cancel">
     <BlogForm/>
     </Togglable>
@@ -99,11 +88,13 @@ const handleLogin = async (event) => {
       <Bloglist/>
     </Route>
 
-    <Route  path="/blogs">
+    <Route exact path="/blogs">
       <ShowBlogs/>
     </Route>
 
-
+    <Route path="/blogs/:id">
+      <Blog/>
+    </Route>
     </Switch>
     
      </div>
