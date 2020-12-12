@@ -8,6 +8,7 @@ const ShowBlogs = () => {
     const blogs = useSelector(state => state.blogsReducer)
     const user = useSelector(state => state.loginReducer)
     console.log('jerry', user)
+    
     return (
     <div>
       
