@@ -18,6 +18,8 @@ import {getBlogs} from './reducers/blogsReducer'
 import {setLogin} from './reducers/loginReducer'
 import {setErrorMessage} from './reducers/errorMessageReducer'
 import {setError} from './reducers/errorReducer'
+import {getUsers} from './reducers/usersReducer'
+
 
 
 
@@ -26,17 +28,17 @@ const App = () => {
   const dispatch = useDispatch()
   const {username, password} = useSelector(state => state.loginFormReducer)
 
+
   useEffect(() => {
     const loggedUserJSON = JSON.parse(window.localStorage.getItem('loggedUser'))
     if (loggedUserJSON) {
       blogService.setToken(loggedUserJSON.token)
       
     }
-    //dispatch(getUsers())
-  // dispatch(getBlogs())
   }, [])
+
+  
  
-  //useEffect(() => dispatch(getBlogs()), [dispatch, loggedUser])
   
 const handleLogin = async (event) => {
     event.preventDefault()
@@ -56,8 +58,6 @@ const handleLogin = async (event) => {
   }
 
   let loggedUser = useSelector(state => state.loginReducer)
-  //console.log('loggedUser', loggedUser)
-
 
 
   if(loggedUser === null ){
@@ -95,6 +95,7 @@ const handleLogin = async (event) => {
     <Route path="/blogs/:id">
       <Blog/>
     </Route>
+    
     </Switch>
     
      </div>

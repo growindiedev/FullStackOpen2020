@@ -21,11 +21,18 @@ const BlogForm = () => {
     dispatch(setErrorMessage(null))
    }, 5000)
   }
+
+  const blogStyle = {
+    padding: 15,
+    border: 'solid',
+    borderWidth: 1,
+    margin: 10 
+  }
   
   
     
     return(
-      <div className="formDiv">
+      <div className="formDiv" style={blogStyle}>
       <form onSubmit={addBlog}>
         <h2>Create Blog</h2>
         <div>

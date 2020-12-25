@@ -8,6 +8,8 @@ import errorReducer from './reducers/errorReducer'
 import blogFormReducer from './reducers/blogFormReducer'
 import loginFormReducer from './reducers/loginFormReducer'
 import loginReducer from './reducers/loginReducer'
+import commentsReducer from './reducers/commentsReducer'
+import comFormReducer from './reducers/comFormReducer'
 
 
 
@@ -19,7 +21,9 @@ const reducer = combineReducers({
     usersReducer,
     blogFormReducer,
     loginFormReducer,
-    loginReducer
+    loginReducer,
+    commentsReducer,
+    comFormReducer
 })
 
 const store = createStore(reducer, applyMiddleware(thunk))

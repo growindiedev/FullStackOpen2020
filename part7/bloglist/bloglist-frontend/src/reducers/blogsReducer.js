@@ -59,7 +59,7 @@ const reducer = (state = [], action) => {
                 ...likedBlog,
                 likes: likedBlog.likes + 1
                 }
-                return state.map(blog =>  blog.id !== id  ? blog : updatedBlog)
+                return state.map(blog =>  blog.id === id  ? updatedBlog : blog)
             }
         case "REMOVEBLOG": {
             const id = action.payload
