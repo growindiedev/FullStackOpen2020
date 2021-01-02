@@ -3,3 +3,4 @@ export interface diagnosesEntry {
     name: string,
     latin?: string
 }
+
