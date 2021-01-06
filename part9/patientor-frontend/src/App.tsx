@@ -6,7 +6,7 @@ import { Button, Divider, Header, Container } from "semantic-ui-react";
 import { apiBaseUrl } from "./constants";
 import { useStateValue } from "./state";
 import { Patient } from "./types";
-
+import PatientView from "./components/PatientView";
 import PatientListPage from "./PatientListPage";
 
 const App: React.FC = () => {
@@ -38,6 +38,7 @@ const App: React.FC = () => {
           <Divider hidden />
           <Switch>
             <Route path="/" render={() => <PatientListPage />} />
+            <Route path="/patients/:id" render={() => <PatientView/>}/>
           </Switch>
         </Container>
       </Router>
