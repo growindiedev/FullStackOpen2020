@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql , UserInputError} = require('apollo-server')
 const { v1: uuid } = require('uuid')
 
 
@@ -110,7 +110,7 @@ const typeDefs = gql`
         title: String!,
         published: Int!,
         author: String!,
-        genres: [String!]!
+        genres: [String]!
       ): Book,
 
       editAuthor(name: String!, setBornTo: Int!): Author
@@ -148,17 +148,21 @@ const resolvers = {
 
   Mutation: {
     addBook: (root, args) => {
-        if (bookCount.find(p => p.name === args.name)) {
-            throw new UserInputError('Name must be unique', {
-              invalidArgs: args.name,
-            })
-          }
+        
         const book = {
             ...args,
             id: uuid()
         }
-        books = books.concat(book)
-        return book
+      books = books.concat(book)
+      // If author is not yet saved to server, a new author is added.
+      if (authors.filter((author) => author.name === args.author).length === 0) {
+          authors = authors.concat({
+          name: args.author,
+          born: null,
+          bookCount: 1,
+        });
+      }
+      return book;    
     },
 
     editAuthor: (root, args) => {
@@ -171,9 +175,9 @@ const resolvers = {
         // const updatedauthor = authors.find(a => a.name === args.name)
         // return updatedauthor  
         
-        // above is good too but better way is below
+        //above is good too but better way is below
         const updatedAuthor = { ...author, born: args.setBornTo };
-        authors = authors.map((a) => (a.name ? updatedAuthor : author));
+        authors = authors.map((a) => (a.name === updatedAuthor.name ? updatedAuthor : a));
         return updatedAuthor;
     }
 
