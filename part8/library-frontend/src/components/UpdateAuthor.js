@@ -5,12 +5,16 @@ import {UPDATE_AUTHOR, ALL_AUTHORS} from '../queries'
 
 
 
-const UpdateAuthor = ({authors}) => {
+const UpdateAuthor = ({authors, setError}) => {
 
 
     const options = authors.map(author => ({value: author.name, label: author.name}))
     let [born, setBorn] = useState('')
-    const [updateAuthor] = useMutation(UPDATE_AUTHOR, {refetchQueries: [{query: ALL_AUTHORS}]})
+    const [updateAuthor] = useMutation(UPDATE_AUTHOR, {refetchQueries: [{query: ALL_AUTHORS}],
+        onError: (error) => {
+            setError(error.graphQLErrors[0].message)
+          }    
+    })
     const [selectedOption, setSelectedOption] = useState(null);
 
 

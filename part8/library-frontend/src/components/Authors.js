@@ -3,7 +3,7 @@ import React from 'react'
 import UpdateAuthor from './UpdateAuthor'
 
 
-const Authors = ({authors, show}) => {
+const Authors = ({authors, show, setError}) => {
   if (!show) {
     return null
   }
@@ -31,7 +31,7 @@ const Authors = ({authors, show}) => {
           )}
         </tbody>
       </table>
-      <UpdateAuthor authors={authors}/>
+      <UpdateAuthor authors={authors} setError={setError}/>
 
     </div>
   )
