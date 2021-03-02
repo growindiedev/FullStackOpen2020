@@ -100,9 +100,3 @@ Other topics include debugging applications, configuration, managing runtime env
 - Typing express app
 - React with types
 
-### Part 10: React Native
-
-- Introduction to React Native
-- React Native basics
-- Communicating with server
-- Testing and extending our application
